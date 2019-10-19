@@ -1,6 +1,3 @@
-const Sequelize = require('sequelize')
+const mongoose = require('mongoose')
 
-//type password instead of ********
-const sequelize = new Sequelize('node-complete', 'root', '********', {dialect: 'mysql', host: 'localhost'})
-
-module.exports = sequelize
+exports.mongoConnect = mongoose.connect('mongodb+srv://newabin:practisenode@cluster0-ymvj0.mongodb.net/test?retryWrites=true&w=majority')

@@ -10,15 +10,15 @@
                         <% order.products.forEach(product => { %>
                             <article class="card product-item">
                                 <header class="card__header">
-                                    <h1 class="product__title"><%= product.title %> X <%= product.orderItem.quantity %></h1>
+                                    <h1 class="product__title"><%= product.product.title %> X <%= product.quantity %></h1>
                                 </header>
                                 <div class="card__image">
-                                    <img src="<%= product.imageUrl %>"
-                                        alt="<%= product.title %>">
+                                    <img src="<%= product.product.imageUrl %>"
+                                        alt="<%= product.product.title %>">
                                 </div>
                                 <div class="card__content">
-                                    <h2 class="product__price">$<%= product.price %></h2>
-                                    <p class="product__description"><%= product.description %></p>
+                                    <h2 class="product__price">$<%= product.product.price %></h2>
+                                    <p class="product__description"><%= product.product.description %></p>
                                 </div>
                             </article>
                             <% }) %>

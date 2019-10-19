@@ -1,10 +1,14 @@
 const Product = require('../models/product')
+const mongodb = require('mongodb')
+const User = require('../models/user')
 
 exports.getAddProduct = (req, res, next) => {
     res.render('admin/add-product', {
       pageTitle: 'Add Product',
       path: '/admin/add-product',
-      editMode : false
+      editMode : false,
+      isAuthenticated : req.session.isLoggedIn
+
     })
   }
 
@@ -13,7 +17,10 @@ exports.postAddProduct = (req, res, next) => {
     const imageUrl = req.body.imageUrl
     const description = req.body.description
     const price = req.body.price
-    req.user.createProduct({title, imageUrl, description, price}).then((result)=>{
+  
+    const product = new Product({title : title, imageUrl : imageUrl, description : description, price : price, userId : req.user})
+
+    product.save().then((result)=>{
       res.redirect('/admin/products')
     }).catch((err)=>{
       console.log(err)
@@ -26,10 +33,8 @@ exports.postAddProduct = (req, res, next) => {
       if(!editMode){
           return res.redirect('/')
       }
-      req.user.getProducts({where : { id : prodId}})
-//      Product.findByPk(prodId)
-      .then((products)=>{
-        const product = products[0]
+     Product.findById(prodId)
+      .then((product)=>{
         if(!product){
             return res.redirect('/')
         }
@@ -37,7 +42,8 @@ exports.postAddProduct = (req, res, next) => {
             pageTitle : 'Edit Product',
             path: '/admin/edit-product',
             editMode,
-            product
+            product,
+            isAuthenticated : req.session.isLoggedIn
         })
       }).catch((err)=>{
         console.log(err)
@@ -50,7 +56,7 @@ exports.postAddProduct = (req, res, next) => {
     const updatedimageUrl = req.body.imageUrl
     const updateddescription = req.body.description
     const updatedprice = req.body.price
-    Product.findByPk(id).then((product)=>{
+    Product.findById(id).then((product)=>{
       product.title = updatedtitle
       product.imageUrl = updatedimageUrl
       product.price = updatedprice
@@ -62,28 +68,27 @@ exports.postAddProduct = (req, res, next) => {
     }).catch((err)=>{
       console.log(err)
     })
-    const updatedproduct = new Product(id, updatedtitle, updatedimageUrl, updateddescription, updatedprice)
-    updatedproduct.save()
   }
 
   exports.postDeleteProduct = (req,res,next)=>{
     const prodID = req.body.id
-    Product.findByPk(prodID).then((product)=>{
-      return product.destroy()
-    }).then((result)=>{
-      res.redirect('/admin/products')
+    req.user.removeFromCart(prodID).then(()=>{
+      Product.findByIdAndRemove(prodID)
+      .then(()=>{
+            res.redirect('/admin/products')
+      }).catch()
     }).catch((err)=>{
       console.log(err)
     })
   }
 
   exports.getAdminProducts = (req,res,next) =>{
-    req.user.getProducts()
-    .then((products)=>{
+    Product.find().then((products)=>{
       res.render('admin/products', {
           prods: products,
           pageTitle: 'Admin Products',
           path: '/admin/products',
+          isAuthenticated : req.session.isLoggedIn
         })
     }).catch((err)=>{
       console.log(err)

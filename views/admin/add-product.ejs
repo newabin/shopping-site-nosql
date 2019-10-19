@@ -25,7 +25,7 @@
                 <textarea name="description" id="description" rows="5" autocomplete="off"><% if(editMode){ %><%= product.description %><% } %></textarea>
             </div>
             <% if(editMode){ %>
-                <input type="hidden" value="<%= product.id %>" name="id">
+                <input type="hidden" value="<%= product._id %>" name="id">
             <% } %>
             <button class="btn" type="submit"><% if(editMode){ %>Update Product <% }else{ %>Add Product<% } %></button>
         </form>
