@@ -43,19 +43,6 @@ app.use((req,res,next)=>{
 //app.use(errorController.get404page)
 
 mongoose.connect('mongodb+srv://newabin:practisenode@cluster0-ymvj0.mongodb.net/shop?retryWrites=true&w=majority').then(()=>{
-  User.findOne().then((user)=>{
-    if(!user){
-      const users = new User({
-      username : 'Pravinewa',
-      email : 'whopravinewa@gmail.com',
-      password : 'qwerty',
-      cart : {
-        items : []
-      }
-    })
-    users.save()
-    }
-  })
   app.listen(4444,()=>{
     console.log('Listening at port 4444')
   })  

@@ -73,6 +73,20 @@ form {
   color: #ffeb3b;
 }
 
+.main-header__item-list-form button{
+  text-decoration: none;
+  color: white;
+  background: #00695c;
+  border: 0;
+  cursor: pointer;
+}
+
+.main-header__item-list-form button:hover,
+.main-header__item-list-form button:active,
+.main-header__item-list-form button.active {
+  color: #ffeb3b;
+}
+
 .mobile-nav {
   width: 30rem;
   height: 100vh;
