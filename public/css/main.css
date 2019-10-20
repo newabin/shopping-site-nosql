@@ -231,4 +231,24 @@ form {
   #side-menu-toggle {
     display: none;
   }
+
+  .user-message{
+    width: 30rem;
+  }
+}
+
+.user-message{
+  margin: auto;
+  width: 40%;
+  border: 1px solid rgb(70, 70, 214);
+  background: #c2c4e2;
+  padding: 1rem;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.user-message--error{
+  border-color: red;
+  background: rgb(226, 123, 123);
+  color: white;
 }

@@ -7,19 +7,24 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <% if(errorMsg){ %>
+            <div class="user-message user-message--error"><%= errorMsg %></div>
+        <% } %>
+
         <form class="product-form" action="/signup" method="POST">
             <div class="form-control">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" autocomplete="off">
+                <input class="<%= validationError.find((e)=> e.param === 'email') ? 'invalid' : '' %>" type="email" name="email" id="email" value="<%= oldInput.email %>" autocomplete="off">
             </div>
             <div class="form-control">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" autocomplete="off">
+                <input class="<%= validationError.find((e)=> e.param === 'password') ? 'invalid' : '' %>" type="password" name="password" id="password" value="<%= oldInput.password %>" autocomplete="off">
             </div>
             <div class="form-control">
                 <label for="cpassword">Confirm Password</label>
-                <input type="password" name="cpassword" id="cpassword" autocomplete="off">
+                <input class="<%= validationError.find((e)=> e.param === 'cpassword') ? 'invalid' : '' %>" type="password" name="cpassword" id="cpassword" value="<%= oldInput.cpassword %>" autocomplete="off">
             </div>
+            <input type="hidden" name= "_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit">Sign Up</button>
         </form>
     </main>

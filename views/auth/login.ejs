@@ -1,22 +1,28 @@
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
    <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <% if(errorMsg){ %>
+            <div class="user-message user-message--error"><%= errorMsg %></div>
+        <% } %>
         <form class="product-form" action="/login" method="POST">
             <div class="form-control">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" autocomplete="off">
+                <input class="<%= validationError.find((e)=> e.param === 'email') ? 'invalid' : '' %>" type="email" name="email" id="email" value="<%= oldInput.email %>" autocomplete="off">
             </div>
             <div class="form-control">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" autocomplete="off">
+                <input class="<%= validationError.find((e)=> e.param === 'password') ? 'invalid' : '' %>" type="password" name="password" id="password" value="<%= oldInput.password %>" autocomplete="off">
             </div>
+            <input type="hidden" name= "_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit">Login</button>
+            <a href="/reset-password">Reset Password</a>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>
